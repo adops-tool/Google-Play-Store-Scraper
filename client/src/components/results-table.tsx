@@ -24,16 +24,16 @@ export function ResultsTable({ data }: ResultsTableProps) {
   return (
     <div className="rounded-2xl border border-border bg-white overflow-hidden shadow-sm">
       <div className="overflow-x-auto">
-        <table className="w-full text-sm text-left">
+        <table className="w-full text-xs text-left">
           <thead className="bg-muted/50 text-muted-foreground font-medium border-b border-border">
             <tr>
-              <th className="px-6 py-4">Studio Name</th>
-              <th className="px-6 py-4">Название игры</th>
-              <th className="px-6 py-4">Support Email</th>
-              <th className="px-6 py-4">Developer Email (About)</th>
-              <th className="px-6 py-4">Website</th>
-              <th className="px-6 py-4">Source</th>
-              <th className="px-6 py-4">Downloads</th>
+              <th className="px-4 py-1.5">Studio Name</th>
+              <th className="px-4 py-1.5">Название игры</th>
+              <th className="px-4 py-1.5">Support Email</th>
+              <th className="px-4 py-1.5">Developer Email (About)</th>
+              <th className="px-4 py-1.5">Website</th>
+              <th className="px-4 py-1.5">Source</th>
+              <th className="px-4 py-1.5">Downloads</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -46,69 +46,87 @@ export function ResultsTable({ data }: ResultsTableProps) {
                   exit={{ opacity: 0, height: 0 }}
                   className="group hover:bg-muted/30 transition-colors"
                 >
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2 font-medium text-foreground">
-                      <Building2 className="w-4 h-4 text-primary/70" />
-                      {app.studioName || <span className="text-muted-foreground italic">Unknown</span>}
+                  <td className="px-4 py-1.5 max-w-[120px] md:max-w-[200px]">
+                    <div className="flex items-center gap-1.5 font-medium text-foreground">
+                      <Building2 className="w-3.5 h-3.5 text-primary/70 shrink-0" />
+                      {app.studioName ? (
+                        <span className="truncate" title={app.studioName}>{app.studioName}</span>
+                      ) : (
+                        <span className="text-muted-foreground italic">Unknown</span>
+                      )}
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-foreground font-medium">
-                    {app.gameTitle || <span className="text-muted-foreground italic">Unknown</span>}
+                  <td className="px-4 py-1.5 max-w-[120px] md:max-w-[200px] text-foreground font-medium">
+                    {app.gameTitle ? (
+                      <span className="truncate block" title={app.gameTitle}>{app.gameTitle}</span>
+                    ) : (
+                      <span className="text-muted-foreground italic">Unknown</span>
+                    )}
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-1.5 max-w-[120px] md:max-w-[200px]">
                     {app.supportEmail ? (
-                      <div className="flex items-center gap-2">
-                        <Mail className="w-4 h-4 text-muted-foreground" />
-                        <a href={`mailto:${app.supportEmail}`} className="hover:text-primary transition-colors hover:underline">
+                      <div className="flex items-center gap-1.5">
+                        <Mail className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                        <a
+                          href={`mailto:${app.supportEmail}`}
+                          className="truncate hover:text-primary transition-colors hover:underline"
+                          title={app.supportEmail}
+                        >
                           {app.supportEmail}
                         </a>
                       </div>
                     ) : (
-                      <span className="text-muted-foreground italic text-xs">Not found</span>
+                      <span className="text-muted-foreground italic">Not found</span>
                     )}
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-1.5 max-w-[120px] md:max-w-[200px]">
                     {app.developerEmail ? (
-                      <div className="flex items-center gap-2">
-                        <Mail className="w-4 h-4 text-primary/60" />
-                        <a href={`mailto:${app.developerEmail}`} className="hover:text-primary transition-colors hover:underline">
+                      <div className="flex items-center gap-1.5">
+                        <Mail className="w-3.5 h-3.5 text-primary/60 shrink-0" />
+                        <a
+                          href={`mailto:${app.developerEmail}`}
+                          className="truncate hover:text-primary transition-colors hover:underline"
+                          title={app.developerEmail}
+                        >
                           {app.developerEmail}
                         </a>
                       </div>
                     ) : (
-                      <span className="text-muted-foreground italic text-xs">Not found</span>
+                      <span className="text-muted-foreground italic">Not found</span>
                     )}
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-1.5 max-w-[120px] md:max-w-[200px]">
                     {app.websiteUrl ? (
-                      <div className="flex items-center gap-2">
-                        <Globe className="w-4 h-4 text-muted-foreground" />
-                        <a 
-                          href={app.websiteUrl} 
-                          target="_blank" 
+                      <div className="flex items-center gap-1.5">
+                        <Globe className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                        <a
+                          href={app.websiteUrl}
+                          target="_blank"
                           rel="noreferrer"
-                          className="hover:text-primary transition-colors hover:underline truncate max-w-[200px] block"
+                          className="truncate hover:text-primary transition-colors hover:underline"
+                          title={app.websiteUrl}
                         >
                           {app.websiteUrl}
                         </a>
                       </div>
                     ) : (
-                      <span className="text-muted-foreground italic text-xs">Not found</span>
+                      <span className="text-muted-foreground italic">Not found</span>
                     )}
                   </td>
-                  <td className="px-6 py-4">
-                    <a 
-                      href={app.originalUrl} 
-                      target="_blank" 
+                  <td className="px-4 py-1.5 max-w-[120px] md:max-w-[200px]">
+                    <a
+                      href={app.originalUrl}
+                      target="_blank"
                       rel="noreferrer"
-                      className="text-primary hover:text-primary/80 transition-colors text-xs break-all max-w-xs block"
+                      className="truncate block text-primary hover:text-primary/80 transition-colors"
+                      title={app.originalUrl}
                     >
                       {app.originalUrl}
                     </a>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-1.5">
                     <span className="text-foreground font-medium">
-                      {app.downloadCount || <span className="text-muted-foreground italic text-xs">Unknown</span>}
+                      {app.downloadCount || <span className="text-muted-foreground italic">Unknown</span>}
                     </span>
                   </td>
                 </motion.tr>
