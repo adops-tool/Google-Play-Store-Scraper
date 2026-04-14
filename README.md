@@ -1,14 +1,23 @@
-# Play Store Scraper
+[![Google-Play-Store-Scraper](https://github.com/OstinUA/Google-Play-Store-Scraper/blob/main/image/Play%20Store%20Scraper.svg)](https://github.com/OstinUA/Google-Play-Store-Scraper)
 
 A production-ready TypeScript scraping service and web UI for extracting Google Play Store developer metadata at scale.
 
 [![Build](https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge)](#testing)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D20.0.0-339933?style=for-the-badge&logo=node.js&logoColor=white)](#getting-started)
 [![TypeScript](https://img.shields.io/badge/typescript-5.6.3-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)](https://expressjs.com/)
+[![Repo Size](https://img.shields.io/github/repo-size/OstinUA/Google-Play-Store-Scraper?style=for-the-badge)](https://github.com/OstinUA/Google-Play-Store-Scraper)
+[![Issues](https://img.shields.io/github/issues/OstinUA/Google-Play-Store-Scraper?style=for-the-badge)](https://github.com/OstinUA/Google-Play-Store-Scraper/issues)
+[![Stars](https://img.shields.io/github/stars/OstinUA/Google-Play-Store-Scraper?style=for-the-badge)](https://github.com/OstinUA/Google-Play-Store-Scraper/stargazers)
+[![Replit](https://img.shields.io/badge/Replit-link-DD1200?style=for-the-badge&logo=replit&logoColor=white&labelColor=gray)](https://replit.com/@ostinostin23/Google-Play-Store-Scraper-v5)
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue?style=for-the-badge)](LICENSE)
 
 > [!NOTE]
 > This repository contains a full-stack scraper application (API + UI). It is not a standalone logging package, but it includes structured request logging and retry diagnostics in the server runtime.
+
+[![img_Google-Play-Store-Scraper](https://github.com/OstinUA/Google-Play-Store-Scraper/blob/main/image/img_Google-Play-Store-Scraper_SP_1.PNG)](https://github.com/OstinUA/Google-Play-Store-Scraper)
+[![img_Google-Play-Store-Scraper](https://github.com/OstinUA/Google-Play-Store-Scraper/blob/main/image/img_Google-Play-Store-Scraper_SP_2.PNG)](https://github.com/OstinUA/Google-Play-Store-Scraper)
 
 ## Table of Contents
 
