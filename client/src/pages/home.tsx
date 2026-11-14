@@ -9,6 +9,29 @@ import { Download, Play, Trash2, Copy } from "lucide-react";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 
+interface ExportRecord {
+  studio_name: string | null;
+  game_title: string | null;
+  support_email: string | null;
+  developer_email: string | null;
+  website_url: string | null;
+  original_url: string;
+  download_count: string | null;
+}
+
+/** Maps a scraped row to its stable snake_case export shape (JSON + clipboard). */
+function toExportRecord(app: ScrapedApp): ExportRecord {
+  return {
+    studio_name: app.studioName,
+    game_title: app.gameTitle,
+    support_email: app.supportEmail,
+    developer_email: app.developerEmail,
+    website_url: app.websiteUrl,
+    original_url: app.originalUrl,
+    download_count: app.downloadCount,
+  };
+}
+
 export default function Home() {
   const [input, setInput] = useState("");
   const [processing, setProcessing] = useState(false);
@@ -17,10 +40,16 @@ export default function Home() {
   const { toast } = useToast();
 
   const handleProcess = async () => {
-    const urls = input
-      .split('\n')
-      .map(line => line.trim())
-      .filter(line => line.length > 0);
+    // Deduplicate while preserving input order — re-scraping the same URL
+    // yields identical rows and just risks throttling.
+    const urls = [
+      ...new Set(
+        input
+          .split("\n")
+          .map((line) => line.trim())
+          .filter((line) => line.length > 0),
+      ),
+    ];
 
     if (urls.length === 0) {
       toast({
@@ -82,17 +111,9 @@ export default function Home() {
   const handleExport = () => {
     if (scrapedApps.length === 0) return;
 
-    const exportData = scrapedApps.map(app => ({
-      studio_name: app.studioName,
-      game_title: app.gameTitle,
-      support_email: app.supportEmail,
-      developer_email: app.developerEmail,
-      website_url: app.websiteUrl,
-      original_url: app.originalUrl,
-      download_count: app.downloadCount,
-    }));
+    const exportData = scrapedApps.map(toExportRecord);
 
-    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -111,22 +132,23 @@ export default function Home() {
   const handleCopyToClipboard = () => {
     if (scrapedApps.length === 0) return;
 
-    const exportData = scrapedApps.map(app => ({
-      studio_name: app.studioName,
-      game_title: app.gameTitle,
-      support_email: app.supportEmail,
-      developer_email: app.developerEmail,
-      website_url: app.websiteUrl,
-      original_url: app.originalUrl,
-      download_count: app.downloadCount,
-    }));
+    const exportData = scrapedApps.map(toExportRecord);
 
-    navigator.clipboard.writeText(JSON.stringify(exportData, null, 2));
-
-    toast({
-      title: "Copied",
-      description: "Data copied to clipboard",
-    });
+    navigator.clipboard
+      .writeText(JSON.stringify(exportData, null, 2))
+      .then(() => {
+        toast({
+          title: "Copied",
+          description: "Data copied to clipboard",
+        });
+      })
+      .catch(() => {
+        toast({
+          variant: "destructive",
+          title: "Copy failed",
+          description: "Clipboard access was denied by the browser",
+        });
+      });
   };
 
   return (
@@ -135,7 +157,7 @@ export default function Home() {
       <a
         href="https://github.com/OstinUA/Google-Play-Store-Scraper"
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
         aria-label="View source on GitHub"
         className="fixed top-0 right-0 z-50"
       >
@@ -186,10 +208,11 @@ export default function Home() {
           <Card className="p-1 shadow-lg bg-white/50 backdrop-blur-sm border-primary/10">
             <div className="bg-background rounded-xl p-6 md:p-8 space-y-6">
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-foreground uppercase tracking-wider">
+                <label htmlFor="target-urls" className="text-sm font-semibold text-foreground uppercase tracking-wider">
                   Target URLs
                 </label>
                 <Textarea
+                  id="target-urls"
                   placeholder="https://play.google.com/store/apps/details?id=..."
                   className="min-h-[160px] font-mono text-sm resize-y border-border focus:border-primary/50 focus:ring-4 focus:ring-primary/5 transition-all rounded-xl p-4 leading-relaxed"
                   value={input}
@@ -198,7 +221,7 @@ export default function Home() {
                 />
                 <p className="text-xs text-muted-foreground flex justify-between">
                   <span>Enter one URL per line</span>
-                  <span>{input.split('\n').filter(l => l.trim()).length} URLs detected</span>
+                  <span>{new Set(input.split('\n').map(l => l.trim()).filter(Boolean)).size} URLs detected</span>
                 </p>
               </div>
 
