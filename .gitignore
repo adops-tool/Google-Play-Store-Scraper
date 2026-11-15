@@ -3,3 +3,7 @@ dist/
 .env
 .env.local
 *.log
+*.tsbuildinfo
+*.zip
+.DS_Store
+coverage/

@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ScrapedApp } from "@shared/schema";
-import { ExternalLink, Building2, Mail, Globe, Trash2 } from "lucide-react";
+import { Building2, Mail, Globe } from "lucide-react";
 
 interface ResultsTableProps {
   data: ScrapedApp[];
@@ -28,7 +28,7 @@ export function ResultsTable({ data }: ResultsTableProps) {
           <thead className="bg-muted/50 text-muted-foreground font-medium border-b border-border">
             <tr>
               <th className="px-4 py-1.5">Studio Name</th>
-              <th className="px-4 py-1.5">Название игры</th>
+              <th className="px-4 py-1.5">Game Title</th>
               <th className="px-4 py-1.5">Support Email</th>
               <th className="px-4 py-1.5">Developer Email (About)</th>
               <th className="px-4 py-1.5">Website</th>
@@ -38,9 +38,9 @@ export function ResultsTable({ data }: ResultsTableProps) {
           </thead>
           <tbody className="divide-y divide-border">
             <AnimatePresence initial={false}>
-              {data.map((app) => (
+              {data.map((app, index) => (
                 <motion.tr
-                  key={app.originalUrl}
+                  key={`${app.originalUrl}#${index}`}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, height: 0 }}
@@ -102,7 +102,7 @@ export function ResultsTable({ data }: ResultsTableProps) {
                         <a
                           href={app.websiteUrl}
                           target="_blank"
-                          rel="noreferrer"
+                          rel="noopener noreferrer"
                           className="truncate hover:text-primary transition-colors hover:underline"
                           title={app.websiteUrl}
                         >
@@ -117,7 +117,7 @@ export function ResultsTable({ data }: ResultsTableProps) {
                     <a
                       href={app.originalUrl}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="truncate block text-primary hover:text-primary/80 transition-colors"
                       title={app.originalUrl}
                     >
